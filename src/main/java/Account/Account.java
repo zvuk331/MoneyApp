@@ -1,5 +1,7 @@
 package Account;
 
+import Database.Database;
+
 public class Account {
     private final String email;
     private String password;
@@ -7,6 +9,7 @@ public class Account {
     public Account(String email, String password) {
         this.email = email;
         this.password = password;
+        Database.insertIntoDatabase(this);
     }
 
     public String getEmail() {

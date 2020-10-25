@@ -1,10 +1,15 @@
 
+import Account.Account;
 import Database.Database;
 
-import java.io.IOException;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MoneyAppMain {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         Database.DATABASE_ON();
+        Database.WRITEALLDATA();
     }
 }
