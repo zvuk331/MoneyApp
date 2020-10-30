@@ -28,7 +28,8 @@ public class Finance {
 
     // Метод выводит все доходы на экран
     public static void printAllIncome(){
-        listIncome.forEach(incomeOfMoney -> System.out.println(incomeOfMoney.getIncomeOfMoney() + ": " + incomeOfMoney.getAmount()));
+        listIncome.forEach(incomeOfMoney -> System.out.println(incomeOfMoney.getIncomeOfMoney() +
+                ": " + incomeOfMoney.getAmount()));
     }
 
     // Метод выводит все расходы на экран
@@ -38,7 +39,7 @@ public class Finance {
                         + spendingOfMoney.getAmount()));
     }
 
-    // Метод находящий сумму все расходов
+    // Метод находящий сумму всех расходов
     public static double totalTransactions(){
         double total = 0;
         for (SpendingOfMoney spending : listTransactions){

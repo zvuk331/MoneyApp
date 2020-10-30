@@ -41,10 +41,15 @@ public class Database {
         String email = account.getEmail();
         String password = account.getPassword();
         try {
-            statement = connection.prepareStatement("INSERT INTO users (user_email,user_password) VALUES(?,?)");
-            statement.setString(1,email);
-            statement.setString(2,password);
-            statement.execute();
+            if (database.accountNotExist(account)){
+                statement = connection.prepareStatement("INSERT INTO users (user_email,user_password) VALUES(?,?)");
+                statement.setString(1,email);
+                statement.setString(2,password);
+                statement.execute();
+            } else {
+                System.out.println("Account exist");
+            }
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -89,6 +94,23 @@ public class Database {
         }
 
 
+    }
+
+    // Checking for the existence of an account
+    private boolean accountNotExist(Account account){
+        try {
+            statement = connection.prepareStatement("SELECT * FROM users");
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                if (resultSet.getString("user_email").equals(account.getEmail())){
+                    return false;
+                }
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return true;
     }
 
 }
