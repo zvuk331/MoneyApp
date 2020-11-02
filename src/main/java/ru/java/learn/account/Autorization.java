@@ -1,4 +1,4 @@
-package Account;
+package ru.java.learn.account;
 
 public class Autorization {
 

@@ -1,6 +1,6 @@
-package Database;
+package ru.java.learn.database;
 
-import Account.Account;
+import ru.java.learn.account.Account;
 
 import java.sql.*;
 import java.util.ArrayList;

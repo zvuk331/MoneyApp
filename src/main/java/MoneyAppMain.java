@@ -1,7 +1,5 @@
 
-import Account.Account;
-import Database.Database;
-import Finance.Finance;
+import ru.java.learn.database.Database;
 
 public class MoneyAppMain {
     public static void main(String[] args) {

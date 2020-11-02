@@ -1,4 +1,4 @@
-package Connect;
+package ru.java.learn.connect;
 
 import java.io.*;
 import java.net.ServerSocket;

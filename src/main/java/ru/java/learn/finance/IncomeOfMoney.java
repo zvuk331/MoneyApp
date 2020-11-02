@@ -1,4 +1,4 @@
-package Finance;
+package ru.java.learn.finance;
 
 public class IncomeOfMoney {
     private String incomeOfMoney;

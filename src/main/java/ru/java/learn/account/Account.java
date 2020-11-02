@@ -1,6 +1,6 @@
-package Account;
+package ru.java.learn.account;
 
-import Database.Database;
+import ru.java.learn.database.Database;
 
 public class Account {
     private final String email;
