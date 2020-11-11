@@ -1,6 +1,6 @@
-package Client;
+package ru.java.learn.client;
 
-import Connect.Connect;
+import ru.java.learn.connect.Connect;
 
 import java.io.IOException;
 

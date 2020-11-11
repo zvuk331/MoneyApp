@@ -1,4 +1,4 @@
-package Finance;
+package ru.java.learn.finance;
 
 import java.util.ArrayList;
 

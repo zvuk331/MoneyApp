@@ -1,6 +1,6 @@
-package Server;
+package ru.java.learn.server;
 
-import Connect.Connect;
+import ru.java.learn.connect.Connect;
 import java.io.IOException;
 import java.net.ServerSocket;
 
