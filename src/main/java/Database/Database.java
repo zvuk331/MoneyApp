@@ -1,6 +1,6 @@
 package Database;
 
-import Account.Account;
+import Account.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -37,15 +37,16 @@ public class Database {
     }
 
     // Write new account into database new_db, table users;
-    public static void insertIntoDatabase(Account account){
-        String email = account.getEmail();
-        String password = account.getPassword();
+    public static void insertIntoDatabase(User user){
+        String email = user.getEmail();
+        String password = user.getPassword();
         try {
-            if (database.accountNotExist(account)){
+            if (database.accountNotExist(user)){
                 statement = connection.prepareStatement("INSERT INTO users (user_email,user_password) VALUES(?,?)");
                 statement.setString(1,email);
                 statement.setString(2,password);
                 statement.execute();
+                statement.close();
             } else {
                 System.out.println("Account exist");
             }
@@ -56,10 +57,10 @@ public class Database {
     }
 
     // Get all data account from database new_db, table users
-    public static ArrayList<String> getAllDataAccount(Account account){
+    public static ArrayList<String> getAllDataAccount(User user){
         ArrayList<String> array = new ArrayList<>();
         try {
-            String email = account.getEmail();
+            String email = user.getEmail();
             statement = connection.prepareStatement("SELECT * FROM users WHERE user_email=?");
             statement.setString(1,email);
             ResultSet resultSet = statement.executeQuery();
@@ -71,6 +72,7 @@ public class Database {
                 array.add(userEmail);
                 array.add(userPassword);
             }
+            statement.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -88,7 +90,7 @@ public class Database {
                 String password = resultSet.getString("user_password");
                 System.out.println("Id: " + id + " Email: " + email + " Password: " + password );
             }
-
+            statement.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -97,16 +99,16 @@ public class Database {
     }
 
     // Checking for the existence of an account
-    private boolean accountNotExist(Account account){
+    private boolean accountNotExist(User user){
         try {
             statement = connection.prepareStatement("SELECT * FROM users");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
-                if (resultSet.getString("user_email").equals(account.getEmail())){
+                if (resultSet.getString("user_email").equals(user.getEmail())){
                     return false;
                 }
             }
-
+            statement.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
