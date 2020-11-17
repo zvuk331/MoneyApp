@@ -1,7 +1,6 @@
-package Database;
+package ru.java.learn.database;
 
-import Account.User;
-
+import ru.java.learn.entity.User;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -14,19 +13,15 @@ public class Database {
     private static PreparedStatement statement;
     static {
         try {
+            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             connection = DriverManager.getConnection(URL,USERNAME,USERPASSWORD);
-        } catch (SQLException throwables) {
+//            statement = connection.prepareStatement("SELECT * FROM users");
+        } catch (Exception throwables ) {
             throwables.printStackTrace();
         }
     }
 
     private Database(){
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
-        } catch (Exception e){
-            System.out.println("Connection error");
-            e.printStackTrace();
-        }
 
     }
     public static Database DATABASE_ON(){
@@ -36,28 +31,35 @@ public class Database {
         return database;
     }
 
-    // Write new account into database new_db, table users;
-    public static void insertIntoDatabase(User user){
-        String email = user.getEmail();
-        String password = user.getPassword();
+    /*private static Connection getConnection(){
+        Connection connection = null;
         try {
-            if (database.accountNotExist(user)){
-                statement = connection.prepareStatement("INSERT INTO users (user_email,user_password) VALUES(?,?)");
-                statement.setString(1,email);
-                statement.setString(2,password);
-                statement.execute();
-                statement.close();
-            } else {
-                System.out.println("Account exist");
-            }
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/new_db","root","pasha331799");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return connection;
+    }*/
 
+
+    // Write new account into database new_db, table users;
+    public void addUserIntoDatabase(String email, String password){
+        try {
+                //Connection connection = getConnection();
+            if (connection != null) {
+                statement = connection.prepareStatement("INSERT INTO users (user_email,user_password) VALUES(?,?)");
+                statement.setString(1, email);
+                statement.setString(2, password);
+                statement.executeQuery();
+                statement.close();
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
 
     // Get all data account from database new_db, table users
-    public static ArrayList<String> getAllDataAccount(User user){
+    public ArrayList<String> getAllDataAccount(User user){
         ArrayList<String> array = new ArrayList<>();
         try {
             String email = user.getEmail();
@@ -80,8 +82,9 @@ public class Database {
     }
 
     // Get all data from database new_db, table users. Type : String
-    public static void WRITEALLDATA(){
+    public void WRITEALLDATA(){
         try {
+            connection = DriverManager.getConnection(URL,USERNAME,USERPASSWORD);
             statement = connection.prepareStatement("SELECT * FROM users");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
@@ -99,20 +102,21 @@ public class Database {
     }
 
     // Checking for the existence of an account
-    private boolean accountNotExist(User user){
+    public boolean userIsExist(String email, String password){
         try {
-            statement = connection.prepareStatement("SELECT * FROM users");
+//            Connection connection = getConnection();
+            statement = connection.prepareStatement("SELECT user_email AND user_password FROM users");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
-                if (resultSet.getString("user_email").equals(user.getEmail())){
-                    return false;
+                if (resultSet.getString("user_email").equals(email)){
+                    return true;
                 }
             }
             statement.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return true;
+        return false;
     }
 
 }
