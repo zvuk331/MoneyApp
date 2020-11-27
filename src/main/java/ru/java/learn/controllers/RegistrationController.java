@@ -42,4 +42,9 @@ public class RegistrationController {
 
         return "redirect:/";
     }
+    @GetMapping("/")
+    public String registration() {
+
+        return "index";
+    }
 }

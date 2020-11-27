@@ -22,7 +22,7 @@ public class SpringDispatcherInitialization extends AbstractAnnotationConfigDisp
         return new String[] {"/"};
     }
 
-    // Filter
+
     @Override
     public void onStartup(ServletContext aServletContext) throws ServletException {
         super.onStartup(aServletContext);

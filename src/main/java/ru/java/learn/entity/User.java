@@ -1,26 +1,28 @@
 package ru.java.learn.entity;
-import org.hibernate.annotations.Table;
-import org.springframework.data.annotation.Id;
+
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.Transient;
+
 import org.springframework.security.core.userdetails.UserDetails;
-import ru.java.learn.finance.Money;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Set;
 
-
 @Entity
-@Table(name = "t_user")
+@Table(name = "t_users")
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    @Size(min=2, message = "Не меньше 5 знаков")
+    @Column(name = "username")
+    @Size(min = 5, message = "not less 5 charecters")
     private String username;
-    @Size(min=2, message = "Не меньше 5 знаков")
+    @Column(name = "email")
+    @Size(min = 5, message = "not less 5 charecters")
+    private String email;
+    @Column(name = "password")
+    @Size(min = 5, message = "not less 5 characters")
     private String password;
     @Transient
     private String passwordConfirm;
@@ -28,6 +30,14 @@ public class User implements UserDetails {
     private Set<Role> roles;
 
     public User() {
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Long getId() {
@@ -45,22 +55,22 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return false;
     }
 
     public void setUsername(String username) {
@@ -69,7 +79,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
+        return null;
     }
 
     @Override

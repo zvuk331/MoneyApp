@@ -28,8 +28,8 @@ public class SpringConfig implements WebMvcConfigurer {
     public SpringResourceTemplateResolver templateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setApplicationContext(applicationContext);
-        templateResolver.setPrefix("/WEB-INF/views/");
-        templateResolver.setSuffix(".html");
+        templateResolver.setPrefix("/WEB-INF/jsp/");
+        templateResolver.setSuffix(".jsp");
         return templateResolver;
     }
 
@@ -50,7 +50,7 @@ public class SpringConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/login").setViewName("login");
+        registry.addViewController("/login").setViewName("/WEB-INF/jsp/login.jsp");
         registry.addViewController("/news").setViewName("news");
     }
 }
