@@ -1,35 +1,52 @@
 package ru.java.learn.entity;
 
-import org.springframework.security.core.GrantedAuthority;
-
-import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.Collection;
-import java.util.Set;
+
 
 @Entity
-@Table(name = "t_users")
-public class User implements UserDetails {
+@Table(name = "t_user")
+public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "id",unique = true,nullable = false)
     private Long id;
-    @Column(name = "username")
-    @Size(min = 5, message = "not less 5 charecters")
+
+    @Column(name = "username", unique = true, nullable = false)
+    @Size(min = 5, message = "not less 5 charecters", max = 30)
     private String username;
-    @Column(name = "email")
-    @Size(min = 5, message = "not less 5 charecters")
+
+    @Column(name = "email", unique = true, nullable = false)
+    @Size(min = 10, max = 40, message = "not less 5 charecters")
     private String email;
-    @Column(name = "password")
+
+    @Column(name = "password", nullable = false)
     @Size(min = 5, message = "not less 5 characters")
     private String password;
-    @Transient
-    private String passwordConfirm;
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles;
 
     public User() {
+    }
+
+    public User(String username,String email,String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {
@@ -48,7 +65,7 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    @Override
+    /*@Override
     public String getUsername() {
         return username;
     }
@@ -105,6 +122,6 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
-    }
+    }*/
 }
 

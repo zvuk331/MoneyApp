@@ -1,13 +1,12 @@
 package ru.java.learn.entity;
 
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "table_role")
-public class Role implements GrantedAuthority {
+
+public class Role{
     @Id
     private Long Id;
     private String name;
@@ -27,8 +26,5 @@ public class Role implements GrantedAuthority {
         this.name = name;
     }
 
-    @Override
-    public String getAuthority() {
-        return null;
-    }
+
 }
