@@ -4,7 +4,6 @@ package ru.java.learn.entity;
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity
 
 public class Role{
     @Id

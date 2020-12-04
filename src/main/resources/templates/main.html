@@ -1,10 +1,40 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Main</title>
 </head>
 <body>
-Main
+<table>
+    <caption>Users</caption>
+    <thead>
+    <tr>
+        <td>ID</td>
+        <td>Username</td>
+        <td>Email</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${users.isEmpty()}">
+        <td colspan="2"> Users not found </td>
+    </tr>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.getUsername()}"></td>
+        <td th:text="${user.getEmail()}"></td>
+    </tr>
+    </tbody>
+
+
+</table>
+<div>
+    <form action="/main" method="get">
+        <input type="text" name="username">
+        <input type="submit" value="Sort by username">
+    </form>
+</div>
+<a href="/">Home page</a>
+<a href="/registration">Registration page</a>
 </body>
 </html>
