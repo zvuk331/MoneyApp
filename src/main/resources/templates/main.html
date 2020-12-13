@@ -11,7 +11,7 @@
     <thead>
     <tr>
         <td>ID</td>
-        <td>Username</td>
+
         <td>Email</td>
     </tr>
     </thead>
@@ -22,7 +22,6 @@
     <tr th:each="user : ${users}">
         <td th:text="${user.id}"></td>
         <td th:text="${user.getUsername()}"></td>
-        <td th:text="${user.getEmail()}"></td>
     </tr>
     </tbody>
 
@@ -35,6 +34,12 @@
     </form>
 </div>
 <a href="/">Home page</a>
-<a href="/registration">Registration page</a>
+<a th:href="@{/registration}">Registration page</a><br>
+
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign out">
+</form>
+
+
 </body>
 </html>

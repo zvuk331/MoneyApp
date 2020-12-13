@@ -7,13 +7,14 @@
 </head>
 <body>
 <div>
-    <form th:action="@{/add}"  method="post">
+    <form th:action="@{/registration}"  method="post">
         <label >Username:</label>
         <input type="text" name="username"><br>
-        <label >Email:</label>
-        <input type="email" name="email"><br>
         <label >Password:</label>
         <input type="password" name="password"><br>
+        <div th:if="${userExist}">
+            <span th:text="${userExist}"></span>
+        </div>
         <input type="submit">
     </form>
 </div>
