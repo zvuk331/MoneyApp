@@ -29,7 +29,7 @@ public class MainController {
     @GetMapping("/home")
     public String homePage(Model model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.findByUsername(auth.getName());
+        User user = userRepository.findByEmail(auth.getName());
         model.addAttribute("user", user);
         return "home";
     }

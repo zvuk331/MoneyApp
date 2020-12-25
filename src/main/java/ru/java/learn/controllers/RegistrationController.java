@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,6 +14,7 @@ import ru.java.learn.entity.Role;
 import ru.java.learn.entity.User;
 import ru.java.learn.repository.UserRepository;
 
+import javax.validation.Valid;
 import java.util.Collections;
 
 @Controller
@@ -25,28 +27,31 @@ public class RegistrationController {
     BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping("/registration")
-    public String registrationPage(Model model){
-        model.addAttribute("userExist","");
+    public String registrationPage( @RequestParam(value = "message", required = false) String message,
+                                    Model model){
+        model.addAttribute("message", message);
         return "registration";
     }
 
     @PostMapping("/registration")
-    public @ResponseBody
-    RedirectView addNewUser(@RequestParam(name = "username") String username,
-                            @RequestParam(name = "password") String password,
-                            User user,
+    public String addNewUser(@Valid User user,
+                            String message,
+                            BindingResult result,
                             Model model){
-        User userFromDB = userRepository.findByUsername(user.getUsername());
-        if (userFromDB !=null){
-            model.addAttribute("userExist", "Пользователь с таким логином уже существует!");
-            return new RedirectView("/registration");
+        User userFromDB = userRepository.findByEmail(user.getEmail());
+        if (userFromDB != null){
+            message = "Пользователь с такой почтой уже существует!";
+            model.addAttribute("message", message);
+            return ("/registration");
         }
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setActive(true);
-        user.setRoles(Collections.singleton(Role.USER));
+
         userRepository.save(user);
 
-        return new RedirectView("/login");
+        if (result.hasErrors()) {
+            
+            return ("registration");
+        }
+
+        return ("/login");
     }
 }
