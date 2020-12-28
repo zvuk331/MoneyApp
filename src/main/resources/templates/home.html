@@ -30,10 +30,17 @@
             </form>
         </nav>
     </header>
+
+    <div>
+        <form th:action="@{/home}" method="post" th:object="${user}">
+            <span th:text="${user.getEmail()}"></span>
+            <input th:field="*{email}" type="email" placeholder="Email" name="email">
+            <input type="submit" value="Изменить почту">
+        </form>
+    </div>
 </div>
 
-<!--<span th:text="${user.getEmail()}"></span>
-<span th:text="${user.getRoles()}"></span>-->
+
 
 
 

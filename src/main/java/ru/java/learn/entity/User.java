@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
@@ -15,11 +16,11 @@ public class User {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty
+    @NotNull(message = "Почта не может быть пустой!")
     @Size(min = 10, message = "Почта должна быть не меньше 10 символов.")
     private String email;
 
-    @NotEmpty
+    @NotNull(message = "Пароль не может быть пустым!")
     @Size(min = 6, message = "Пароль должен быть не меньше 6 символов")
     private String password;
     private boolean active;
@@ -28,7 +29,6 @@ public class User {
     @CollectionTable(name = "t_user_role",joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
-
 
 
     // For example

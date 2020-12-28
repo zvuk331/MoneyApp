@@ -34,8 +34,8 @@
 
     <form th:action="@{/login}" method="POST">
         <fieldset class="clearfix">
-            <p><span class="fontawesome-user"></span><input type="email" value="Почта" name="email" required></p>
-            <p><span class="fontawesome-lock"></span><input type="password"  value="Пароль" name="password" required></p>
+            <p><span class="fontawesome-user"></span><input type="email" placeholder="Почта" name="email" required></p>
+            <p><span class="fontawesome-lock"></span><input type="password"  placeholder="Пароль" name="password" required></p>
             <p><input type="submit" value="ВОЙТИ"></p>
             <div th:if="${param.error}" style="color: red">
                 Неверный логин или пароль.
