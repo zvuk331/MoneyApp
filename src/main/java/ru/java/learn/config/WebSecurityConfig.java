@@ -24,9 +24,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                     .authorizeRequests()
-                    .antMatchers("/registration", "/login").permitAll()
-                    .antMatchers("/resources/**").permitAll()
-                    .antMatchers("/").permitAll()
+                    .antMatchers("/","/resources/**",
+                            "/registration", "/login").permitAll()
                     .anyRequest().authenticated()
                 .and()
                     .formLogin()
@@ -36,9 +35,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .logout()
                     .logoutUrl("/logout")
-                    .invalidateHttpSession(true)
-                    .clearAuthentication(true)
-                    .deleteCookies("JSESSIONID")
                     .logoutSuccessUrl("/")
                     .permitAll();
     }

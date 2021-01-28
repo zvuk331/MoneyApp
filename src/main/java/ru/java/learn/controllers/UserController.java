@@ -7,10 +7,10 @@ import ru.java.learn.repository.UserRepository;
 @Controller
 public class UserController {
 
-    @Autowired
-    private UserRepository userRepository;
+   /* @Autowired
+    private UserRepository userRepository;*/
 
 
-    }
+}
 
 

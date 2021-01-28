@@ -1,22 +1,22 @@
 package ru.java.learn.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.MessageCodesResolver;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.view.RedirectView;
-import ru.java.learn.entity.Role;
 import ru.java.learn.entity.User;
+import ru.java.learn.form.UserFromForm;
 import ru.java.learn.repository.UserRepository;
-import ru.java.learn.service.SecurityUser;
-
 import javax.validation.Valid;
-import java.util.Collections;
+
 
 @Controller
 public class RegistrationController {
@@ -48,14 +48,12 @@ public class RegistrationController {
             model.addAttribute("message", message);
             return ("/registration");
         }
-        if (result.hasFieldErrors()) {
-            return ("redirect:/registration");
+        if (result.hasErrors()) {
+            return ("/registration");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setActive(true);
         userRepository.save(user);
-
-
         return ("/login");
     }
 }

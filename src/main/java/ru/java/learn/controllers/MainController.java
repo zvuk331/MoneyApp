@@ -11,14 +11,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.java.learn.entity.User;
 import ru.java.learn.repository.UserRepository;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class MainController {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping("/main")
     public String mainPage(@RequestParam(required = false) String username,Model model){
@@ -27,9 +26,10 @@ public class MainController {
         return "main";
     }
     @GetMapping("/home")
-    public String homePage(Model model){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.findByEmail(auth.getName());
+    public String homePage(Model model, User userFromWebsite){
+        /*Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByEmail(auth.getName()).orElse(new User());*/
+        User user = userRepository.findByEmail(userFromWebsite.getEmail());
         model.addAttribute("user", user);
         return "home";
     }
