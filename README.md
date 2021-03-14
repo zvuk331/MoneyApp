@@ -1,2 +1,16 @@
 # MoneyApp
-## I am making an educational application for calculating income and expenses.
+## Простое приложение для подсчёта расходов и доходов. 
+
+В приложении реализовано:
+-Аутентификация
+-Регистрация
+-Изменение деталей пользователя
+-Добавление доходов и расходов
+
+В проекте используются: 
+Spring Boot, 
+Spring Security, 
+Spring Data JPA, 
+MySQL, 
+Thymeleaf
+
