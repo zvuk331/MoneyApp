@@ -27,9 +27,9 @@ public class UserService implements UserDetailsService {
         this.detailsRepository = detailsRepository;
     }
 
-    public User findUserById(Long id){
-        Optional<User> userFromDb = userRepository.findById(id);
-        return userFromDb.orElse(new User());
+    public Optional<User> findUserById(Long id){
+        Optional<User> user = userRepository.findById(id);
+        return user;
     }
 
     public List<User> allUsers(){
