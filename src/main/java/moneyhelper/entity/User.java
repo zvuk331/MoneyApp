@@ -7,6 +7,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -45,6 +46,10 @@ public class User implements org.springframework.security.core.userdetails.UserD
     public User() {
     }
 
+    public User(String email) {
+        this.email = email;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -56,6 +61,19 @@ public class User implements org.springframework.security.core.userdetails.UserD
                 ", details=" + details +
                 ", finance=" + finance +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(roles, user.roles) && status == user.status && Objects.equals(details, user.details) && Objects.equals(finance, user.finance);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, password, roles, status, details, finance);
     }
 
     public Long getId() {
