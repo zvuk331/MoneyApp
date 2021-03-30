@@ -19,7 +19,7 @@ public class User implements org.springframework.security.core.userdetails.UserD
 
     @NotBlank(message = "Email не может быть пустым!")
     @Size(min = 10, message = "Email должен быть больше 10 символов!")
-    @Email(message = "Должен иметь шаблон почты!")
+    @Email(message = "Email должен иметь шаблон почты!")
     private String email;
 
     @NotBlank(message = "Пароль не может быть пустым!")

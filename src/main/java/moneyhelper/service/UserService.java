@@ -3,13 +3,17 @@ package moneyhelper.service;
 import moneyhelper.entity.*;
 import moneyhelper.repository.DetailsRepository;
 import moneyhelper.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -21,19 +25,33 @@ public class UserService implements UserDetailsService {
 
     private final DetailsRepository detailsRepository;
 
+    @Value("${upload.path}")
+    private String uploadPath;
+
     public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, DetailsRepository detailsRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.detailsRepository = detailsRepository;
     }
 
-    public Optional<User> findUserById(Long id){
-        Optional<User> user = userRepository.findById(id);
-        return user;
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
+        UserDetails userFrom = new org.springframework.security.core.userdetails.User(
+                user.getEmail(),
+                user.getPassword(),
+                Collections.singletonList(new SimpleGrantedAuthority("USER"))
+        );
+        return userFrom;
     }
 
     public List<User> allUsers(){
         return userRepository.findAll();
+    }
+
+    public Optional<User> findUserById(Long id){
+        Optional<User> user = userRepository.findById(id);
+        return user;
     }
 
     public boolean deleteUser(Long id){
@@ -47,6 +65,7 @@ public class UserService implements UserDetailsService {
     public void update(User user){
         userRepository.save(user);
     }
+
     public void updateDetails(User user){
         User userFromDb = userRepository.findById(user.getId()).get();
         moneyhelper.entity.UserDetails newDetails = user.getDetails();
@@ -63,7 +82,10 @@ public class UserService implements UserDetailsService {
 
         userFromDb.setDetails(detailsFromDb);
         userRepository.save(userFromDb);
+    }
 
+    public User findUserByEmail(String email){
+        return userRepository.findByEmail(email);
     }
 
     public void saveNewUser(User user){
@@ -90,18 +112,29 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public User findUserByEmail(String email){
-        return userRepository.findByEmail(email);
+    public void updatePassword(User user, String password){
+        User userFromDb = userRepository.findByEmail(user.getEmail());
+        userFromDb.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(userFromDb);
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email);
-        UserDetails userFrom = new org.springframework.security.core.userdetails.User(
-                user.getEmail(),
-                user.getPassword(),
-                Collections.singletonList(new SimpleGrantedAuthority("USER"))
-        );
-        return userFrom;
+
+    public void updatePhoto(MultipartFile file, User user) {
+        moneyhelper.entity.UserDetails detailsFromDb = detailsRepository.findById(user.getId()).get();
+        File uploadDir = new File(uploadPath);
+
+        if (!uploadDir.exists()){
+            uploadDir.mkdir();
+        }
+        String uuidFile = UUID.randomUUID().toString();
+        String resultFileName = uuidFile + "-" + file.getOriginalFilename();
+
+        try {
+            file.transferTo(new File(uploadPath + "/" + resultFileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        detailsFromDb.setFileName(resultFileName);
+        detailsRepository.save(detailsFromDb);
     }
 }

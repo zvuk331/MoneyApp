@@ -42,6 +42,12 @@ public class FinanceController {
         List<TypesOfCosts> typesOfCosts = financeService.findAllCosts();
         model.addAttribute("typesOfCosts", typesOfCosts);
 
+        List<UserCosts> userCostsList = user.getFinance().getCosts();
+        model.addAttribute("userCostsList", userCostsList);
+
+        List<UserIncome> userIncomesList = user.getFinance().getIncomes();
+        model.addAttribute("userIncomesList", userIncomesList);
+
         return "finance";
     }
 
