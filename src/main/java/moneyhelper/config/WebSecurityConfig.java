@@ -24,7 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/","/resources/**",
-                        "/registration", "/login").permitAll()
+                        "/registration", "/login", "/activate/*").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -40,8 +40,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/css/**","/js/**","/fonts/**","/images/**");
+        web.ignoring().antMatchers("/css/**","/js/**","/fonts/**","/img/**");
     }
+
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){

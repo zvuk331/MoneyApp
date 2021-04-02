@@ -13,6 +13,7 @@
 
     <div>
         <h1>Hello, it's money app</h1>
+        <p th:if="${message!=null}" th:text="${message}" class="alert alert-success"></p>
     </div>
 
     <footer th:insert="footer::footer"></footer>

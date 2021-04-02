@@ -1,5 +1,7 @@
 package moneyhelper.entity;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.persistence.*;
 
 @Entity
@@ -25,7 +27,9 @@ public class UserDetails {
 
     private String position;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    private String fileName;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
@@ -108,6 +112,14 @@ public class UserDetails {
         this.user = user;
     }
 
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
     @Override
     public String toString() {
         return "UserDetails{" +
@@ -123,4 +135,5 @@ public class UserDetails {
                 ", user=" + user +
                 '}';
     }
+
 }

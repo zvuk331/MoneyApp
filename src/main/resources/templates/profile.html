@@ -19,11 +19,11 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-column align-items-center text-center">
-                            <img src="/img/no-avatar.png" alt="Admin" class="rounded-circle" width="150">
+                            <img th:src="@{/img/{filename}(filename = ${userDetails.getFileName()})}" alt="Admin" class="rounded-circle" width="150">
                             <div class="mt-3">
-                                <h4 th:text="${user.getDetails().getFullName()}"></h4>
-                                <p th:text="${user.getDetails().getPosition()}" class="text-secondary mb-1"></p>
-                                <p th:text="${user.getDetails().getCountry() + ', ' + user.getDetails().getCity()}" class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
+                                <h4 th:text="${userDetails.getFullName()}"></h4>
+                                <p th:text="${userDetails.getPosition()}" class="text-secondary mb-1"></p>
+                                <p th:text="${userDetails.getCountry() + ', ' + userDetails.getCity()}" class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
                                 <a th:href="@{/profile/edit}">Редактировать</a>
                             </div>
                         </div>
@@ -33,7 +33,7 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                             <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-globe mr-2 icon-inline"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>Website</h6>
-                            <a th:href="${user.getDetails().getWebsite()}" th:text="${user.getDetails().getWebsite()}" class="text-secondary"></a>
+                            <a th:href="${userDetails.getWebsite()}" th:text="${userDetails.getWebsite()}" class="text-secondary"></a>
                         </li>
                     </ul>
                 </div>
@@ -45,7 +45,7 @@
                             <div class="col-sm-3">
                                 <h6 class="mb-0">Полное имя</h6>
                             </div>
-                            <div th:text="${user.getDetails().getFullName()}" class="col-sm-9 text-secondary"></div>
+                            <div th:text="${userDetails.getFullName()}" class="col-sm-9 text-secondary"></div>
                         </div>
                         <hr>
                         <div class="row">
@@ -59,7 +59,7 @@
                             <div class="col-sm-3">
                                 <h6 class="mb-0">Мобильный телефон</h6>
                             </div>
-                            <div th:text="${user.getDetails().getPhoneNumber()}" class="col-sm-9 text-secondary"></div>
+                            <div th:text="${userDetails.getPhoneNumber()}" class="col-sm-9 text-secondary"></div>
                         </div>
                         <hr>
 
@@ -67,7 +67,7 @@
                             <div class="col-sm-3">
                                 <h6 class="mb-0">Страна</h6>
                             </div>
-                            <div th:text="${user.getDetails().getCountry()}" class="col-sm-9 text-secondary"></div>
+                            <div th:text="${userDetails.getCountry()}" class="col-sm-9 text-secondary"></div>
                         </div>
                         <hr>
 
@@ -75,7 +75,7 @@
                             <div class="col-sm-3">
                                 <h6 class="mb-0">Область</h6>
                             </div>
-                            <div th:text="${user.getDetails().getRegion()}" class="col-sm-9 text-secondary"></div>
+                            <div th:text="${userDetails.getRegion()}" class="col-sm-9 text-secondary"></div>
                         </div>
                         <hr>
 
@@ -83,34 +83,17 @@
                             <div class="col-sm-3">
                                 <h6 class="mb-0">Город</h6>
                             </div>
-                            <div th:text="${user.getDetails().getCity()}" class="col-sm-9 text-secondary"></div>
+                            <div th:text="${userDetails.getCity()}" class="col-sm-9 text-secondary"></div>
                         </div>
-                    </div>
+                        <hr>
 
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Возраст</h6>
+                            </div>
+                            <div th:text="${userDetails.getAge()}" class="col-sm-9 text-secondary"></div>
+                        </div>
 
-                </div>
-                <div class="row gutters-sm">
-                    <div class="col-sm-6 mb-3">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>Доходы</h6>
-                                <div th:each="userIncome : ${userIncomesList}">
-                                    <small th:text="${userIncome.getType()}"></small>
-                                    <p th:text="${userIncome.getValue()}"></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 mb-3">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>Расходы</h6>
-                                <div th:each="userCost : ${userCostsList}">
-                                    <small th:text="${userCost.getType()}"></small>
-                                    <p th:text="${userCost.getValue()}"></p>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

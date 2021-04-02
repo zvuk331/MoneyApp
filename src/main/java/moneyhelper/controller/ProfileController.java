@@ -1,9 +1,7 @@
 package moneyhelper.controller;
 
 import moneyhelper.entity.User;
-import moneyhelper.entity.UserCosts;
 import moneyhelper.entity.UserDetails;
-import moneyhelper.entity.UserIncome;
 import moneyhelper.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,8 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import javax.validation.Valid;
 
 @Controller
 public class ProfileController {
@@ -24,21 +23,21 @@ public class ProfileController {
     }
 
     @GetMapping("/profile")
-    public String homePage(Model model){
+    public String homePage(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
+        UserDetails details = user.getDetails();
+        model.addAttribute("userDetails", details);
         model.addAttribute("user", user);
 
-        List<UserCosts> userCostsList = user.getFinance().getCosts();
-        model.addAttribute("userCostsList", userCostsList);
+        String filename = details.getFileName();
+        model.addAttribute("filename", filename);
 
-        List<UserIncome> userIncomesList = user.getFinance().getIncomes();
-        model.addAttribute("userIncomesList", userIncomesList);
         return "profile";
     }
 
     @GetMapping("/profile/edit")
-    public String editProfilePage(Model model){
+    public String editProfilePage(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
         UserDetails userDetails = user.getDetails();
@@ -48,14 +47,23 @@ public class ProfileController {
     }
 
     @PostMapping("/profile/edit")
-    public String editUserDetails(UserDetails userDetails){
+    public String editUserDetails(@RequestParam("file") MultipartFile file,
+                                  @RequestParam(value = "password", required = false) @Valid String password,
+//                                  @RequestParam(value = "password",required = false) @Valid String password2,
+                                  UserDetails userDetails,
+                                  Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
+
+        if (!file.isEmpty()) {
+            userService.updatePhoto(file, user);
+        }
+        if (!password.isEmpty()) {
+            userService.updatePassword(user, password);
+        }
         userDetails.setUser(user);
         user.setDetails(userDetails);
-
         userService.updateDetails(user);
-        return "redirect:/profile";
+        return"redirect:/profile";
     }
-
 }

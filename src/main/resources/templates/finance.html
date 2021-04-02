@@ -62,7 +62,35 @@
 
             </form>
         </div>
+
     </div>
+    <div class="row gutters-sm mt-5">
+
+        <div class="col-sm-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>Расходы</h6>
+                    <div th:each="userCost : ${userCostsList}">
+                        <small th:text="${userCost.getType()}"></small>
+                        <p th:text="${userCost.getValue()}"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>Доходы</h6>
+                    <div th:each="userIncome : ${userIncomesList}">
+                        <small th:text="${userIncome.getType()}"></small>
+                        <p th:text="${userIncome.getValue()}"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <footer th:insert="footer::footer"></footer>
 </div>

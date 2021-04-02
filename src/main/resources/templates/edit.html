@@ -12,52 +12,68 @@
     <div class="container">
         <header th:insert="header::header"></header>
 
-        <form class="mt-5" th:action="@{/profile/edit}" th:object="${userDetails}" method='POST'>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label" for="fullNameInput">Полное имя: </label>
-                    <input class="form-control col-sm-10 col-lg-3" type="text" th:value="${userDetails.getFullName()}" name="fullName" id="fullNameInput">
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label" for="ageInput">Возраст: </label>
-                    <input class="form-control col-sm-10 col-lg-3" type="number" th:value="${userDetails.getAge()}" name="age" id="ageInput">
-                </div>
+        <form class="mt-5" th:action="@{/profile/edit}" th:object="${userDetails}" method='POST' enctype="multipart/form-data">
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="fullNameInput">Полное имя: </label>
+                <input class="form-control col-sm-10 col-lg-3" type="text" th:value="${userDetails.getFullName()}" name="fullName" id="fullNameInput">
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="ageInput">Возраст: </label>
+                <input class="form-control col-sm-10 col-lg-3" type="number" th:value="${userDetails.getAge()}" name="age" id="ageInput">
+            </div>
 
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label" for="countryInput">Страна: </label>
-                    <input class="form-control col-sm-10 col-lg-3" type="text" th:value="${userDetails.getCountry()}" name="country" id="countryInput">
-                </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="countryInput">Страна: </label>
+                <input class="form-control col-sm-10 col-lg-3" type="text" th:value="${userDetails.getCountry()}" name="country" id="countryInput">
+            </div>
 
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label" for="regionInput">Область: </label>
-                    <input class="form-control col-sm-10 col-lg-3" type="text" th:value="${userDetails.getRegion()}" name="region" id="regionInput">
-                </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="regionInput">Область: </label>
+                <input class="form-control col-sm-10 col-lg-3" type="text" th:value="${userDetails.getRegion()}" name="region" id="regionInput">
+            </div>
 
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label" for="cityInput">Город: </label>
-                    <input class="form-control col-sm-10 col-lg-3" type="text" th:value="${userDetails.getCity()}" name="city" id="cityInput">
-                </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="cityInput">Город: </label>
+                <input class="form-control col-sm-10 col-lg-3" type="text" th:value="${userDetails.getCity()}" name="city" id="cityInput">
+            </div>
 
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label" for="phoneNumberInput">Номер телефона: </label>
-                    <input class="form-control col-sm-10 col-lg-3" type="text" th:value="${userDetails.getPhoneNumber()}" name="phoneNumber" id="phoneNumberInput">
-                </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="phoneNumberInput">Номер телефона: </label>
+                <input class="form-control col-sm-10 col-lg-3" type="text" th:value="${userDetails.getPhoneNumber()}" name="phoneNumber" id="phoneNumberInput">
+            </div>
 
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label" for="positionInput">Должность: </label>
-                    <input class="form-control col-sm-10 col-lg-3" type="text" th:value="${userDetails.getPosition()}" name="position" id="positionInput">
-                </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="positionInput">Должность: </label>
+                <input class="form-control col-sm-10 col-lg-3" type="text" th:value="${userDetails.getPosition()}" name="position" id="positionInput">
+            </div>
 
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label" for="websiteInput">Веб сайт: </label>
-                    <input class="form-control col-sm-10 col-lg-3" type="text" th:value="${userDetails.getWebsite()}" name="website" id="websiteInput">
-                </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="websiteInput">Веб сайт: </label>
+                <input class="form-control col-sm-10 col-lg-3" type="text" th:value="${userDetails.getWebsite()}" name="website" id="websiteInput">
+            </div>
 
-                <input class="btn btn-success mt-1" name="submit" type="submit" value="Изменить"/>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Фото профиля: </label>
+                <input type="file" name="file">
+            </div>
 
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="websiteInput">Новый пароль: </label>
+                <input class="form-control col-sm-10 col-lg-3" type="password" name="password">
+            </div>
+
+<!--            <div class="form-group row">-->
+<!--                <label class="col-sm-2 col-form-label" >Повторите пароль: </label>-->
+<!--                <input class="form-control col-sm-10 col-lg-3" type="password" name="password2">-->
+<!--            </div>-->
+
+            <div class="error-block">
+                <p th:if="${param.error}" class="alert alert-danger">Пароль должен быть больше 6 знаков</p>
+            </div>
+
+            <input class="btn btn-success mt-1" name="submit" type="submit" value="Изменить"/>
         </form>
     </div>
-
-
 
     <footer th:insert="footer::footer"></footer>
 </body>
