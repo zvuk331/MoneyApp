@@ -21,9 +21,9 @@
                 <div class="for-group">
                     <p><span class="fontawesome-lock"></span><input class="form-control" type="password"  placeholder="Пароль" name="password" required></p>
                 </div>
+<!--                <p th:if="${message!=null}" th:text="${message}" class="alert alert-success"></p>-->
                 <p th:if="${param.error}" class="alert alert-danger">Неверный логин или пароль.</p>
                 <p><input type="submit" class="btn btn-primary" value="ВОЙТИ"></p>
-
 
             <p>Нет аккаунта? &nbsp;&nbsp;<a th:href="@{/registration}">Регистрация</a><span class="row justify-content-center"></span></p>
         </form>

@@ -42,6 +42,7 @@ public class User implements org.springframework.security.core.userdetails.UserD
     @JoinColumn(name = "finance_id", referencedColumnName = "id")
     private UserFinance finance;
 
+    private String activationCode;
 
     public User() {
     }
@@ -162,5 +163,11 @@ public class User implements org.springframework.security.core.userdetails.UserD
         this.finance = finance;
     }
 
+    public String getActivationCode() {
+        return activationCode;
+    }
 
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
+    }
 }

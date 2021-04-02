@@ -25,13 +25,16 @@ public class UserService implements UserDetailsService {
 
     private final DetailsRepository detailsRepository;
 
+    private final MailSender mailSender;
+
     @Value("${upload.path}")
     private String uploadPath;
 
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, DetailsRepository detailsRepository) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, DetailsRepository detailsRepository, MailSender mailSender) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.detailsRepository = detailsRepository;
+        this.mailSender = mailSender;
     }
 
     @Override
@@ -109,6 +112,16 @@ public class UserService implements UserDetailsService {
         Set<UserRole> roles = new HashSet<>();
         roles.add(UserRole.USER);
         user.setRoles(roles);
+
+        user.setActivationCode(UUID.randomUUID().toString());
+        String message = String.format(
+                "Привет, %s \n" +
+                        "Для подтверждения пользователя перейдите по ссылке: http://localhost:8080/activate/%s",
+                user.getEmail(),
+                user.getActivationCode()
+        );
+        mailSender.send(user.getEmail(), "Activation code", message);
+
         userRepository.save(user);
     }
 
@@ -136,5 +149,15 @@ public class UserService implements UserDetailsService {
         }
         detailsFromDb.setFileName(resultFileName);
         detailsRepository.save(detailsFromDb);
+    }
+
+    public boolean activateUser(String code) {
+        User user = userRepository.findByActivationCode(code);
+        if (user == null){
+            return false;
+        }
+        user.setActivationCode(null);
+        userRepository.save(user);
+        return true;
     }
 }
