@@ -116,7 +116,7 @@ public class UserService implements UserDetailsService {
         user.setActivationCode(UUID.randomUUID().toString());
         String message = String.format(
                 "Привет, %s \n" +
-                        "Для подтверждения пользователя перейдите по ссылке: http://localhost:8080/activate/%s",
+                        "Для подтверждения пользователя перейдите по <a href='http://localhost:8080/activate/%s'>ссылке</a>:",
                 user.getEmail(),
                 user.getActivationCode()
         );
