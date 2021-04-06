@@ -72,7 +72,10 @@
                     <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>Расходы</h6>
                     <div th:each="userCost : ${userCostsList}">
                         <small th:text="${userCost.getType()}"></small>
-                        <p th:text="${userCost.getValue()}"></p>
+                        <div class="row">
+                            <p class="col-sm-9" th:text="${userCost.getValue()}"></p>
+                            <p class="col-sm-3" th:text="${userCost.getDate()}"></p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -84,7 +87,11 @@
                     <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>Доходы</h6>
                     <div th:each="userIncome : ${userIncomesList}">
                         <small th:text="${userIncome.getType()}"></small>
-                        <p th:text="${userIncome.getValue()}"></p>
+                        <div class="row">
+                            <p class="col-sm-9" th:text="${userIncome.getValue()}"></p>
+                            <p class="col-sm-3" th:text="${userIncome.getDate()}"></p>
+                        </div>
+
                     </div>
                 </div>
             </div>

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -57,20 +59,8 @@ public class FinanceController {
                            Model model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
-        UserFinance finance = user.getFinance();
+        financeService.addCosts(user, value, type);
 
-        UserCosts costs = new UserCosts();
-
-        costs.setFinance(finance);
-
-        costs.setValue(value);
-        costs.setType(type);
-
-        finance.getCosts().add(costs);
-
-        finance.setBalance(finance.getBalance() - value);
-        financeService.save(finance);
-        userService.update(user);
         return "redirect:/finance";
     }
 
@@ -80,18 +70,8 @@ public class FinanceController {
                            Model model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
-        UserFinance finance = user.getFinance();
+        financeService.addIncome(user, value, type);
 
-        UserIncome income = new UserIncome();
-        income.setFinance(finance);
-
-        income.setValue(value);
-        income.setType(type);
-        finance.getIncomes().add(income);
-
-        finance.setBalance(finance.getBalance() + value);
-        financeService.save(finance);
-        userService.update(user);
         return "redirect:/finance";
     }
 
