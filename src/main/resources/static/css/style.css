@@ -4,3 +4,7 @@ input {
 label {
     display: block;
 }
+
+.dateFinance {
+    font-size: 0.9em;
+}
