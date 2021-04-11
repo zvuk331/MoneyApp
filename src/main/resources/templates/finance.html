@@ -73,8 +73,8 @@
                     <div th:each="userCost : ${userCostsList}">
                         <small th:text="${userCost.getType()}"></small>
                         <div class="row">
-                            <p class="col-sm-9" th:text="${userCost.getValue()}"></p>
-                            <p class="col-sm-3" th:text="${userCost.getDate()}"></p>
+                            <p class="col-sm-8" th:text="${userCost.getValue()}"></p>
+                            <p class="col-sm-4 dateFinance" th:text="${#dates.format(userCost.getDate(), 'hh:mm:ss dd-M-yyyy ')}"></p>
                         </div>
                     </div>
                 </div>
@@ -88,8 +88,8 @@
                     <div th:each="userIncome : ${userIncomesList}">
                         <small th:text="${userIncome.getType()}"></small>
                         <div class="row">
-                            <p class="col-sm-9" th:text="${userIncome.getValue()}"></p>
-                            <p class="col-sm-3" th:text="${userIncome.getDate()}"></p>
+                            <p class="col-sm-8" th:text="${userIncome.getValue()}"></p>
+                            <p class="col-sm-4 dateFinance" th:text="${#dates.format(userIncome.getDate(), 'hh:mm:ss dd-M-yyyy')}"></p>
                         </div>
 
                     </div>
