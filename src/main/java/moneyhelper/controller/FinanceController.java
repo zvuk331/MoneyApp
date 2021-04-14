@@ -28,8 +28,7 @@ public class FinanceController {
 
     @GetMapping("/finance")
     public String mainPage(Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByEmail(auth.getName());
+        User user = getAuthentificationUser();
         model.addAttribute("user", user);
 
         UserIncome income = new UserIncome();
@@ -57,8 +56,7 @@ public class FinanceController {
     public String addCosts(@RequestParam(value = "value") double value,
                            @RequestParam(value = "type") String type,
                            Model model){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByEmail(auth.getName());
+        User user = getAuthentificationUser();
         financeService.addCosts(user, value, type);
 
         return "redirect:/finance";
@@ -68,11 +66,16 @@ public class FinanceController {
     public String addIncome(@RequestParam(value = "value") double value,
                            @RequestParam(value = "type") String type,
                            Model model){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByEmail(auth.getName());
+        User user = getAuthentificationUser();
         financeService.addIncome(user, value, type);
 
         return "redirect:/finance";
+    }
+
+    protected User getAuthentificationUser(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+        return user;
     }
 
 }

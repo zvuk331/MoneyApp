@@ -24,8 +24,7 @@ public class ProfileController {
 
     @GetMapping("/profile")
     public String homePage(Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByEmail(auth.getName());
+        User user = getAuthentificationUser();
         UserDetails details = user.getDetails();
         model.addAttribute("userDetails", details);
         model.addAttribute("user", user);
@@ -38,8 +37,9 @@ public class ProfileController {
 
     @GetMapping("/profile/edit")
     public String editProfilePage(Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByEmail(auth.getName());
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        User user = userService.findUserByEmail(auth.getName());
+        User user = getAuthentificationUser();
         UserDetails userDetails = user.getDetails();
         model.addAttribute("userDetails", userDetails);
         model.addAttribute("user", user);
@@ -52,8 +52,7 @@ public class ProfileController {
 //                                  @RequestParam(value = "password",required = false) @Valid String password2,
                                   UserDetails userDetails,
                                   Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByEmail(auth.getName());
+        User user = getAuthentificationUser();
 
         if (!file.isEmpty()) {
             userService.updatePhoto(file, user);
@@ -65,5 +64,10 @@ public class ProfileController {
         user.setDetails(userDetails);
         userService.updateDetails(user);
         return"redirect:/profile";
+    }
+    protected User getAuthentificationUser(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+        return user;
     }
 }

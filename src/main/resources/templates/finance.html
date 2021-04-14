@@ -12,7 +12,7 @@
 <div class="container px-4">
     <header th:insert="header::header"></header>
     <div class="mb-5 mt-3">
-        <h5>Баланс: <span th:text="${user.getFinance().getBalance()}"></span></h5>
+        <h5>Баланс: <span th:text="${#numbers.formatDecimal(user.getFinance().getBalance(),1,'DEFAULT',2,'DEFAULT')}"></span></h5>
     </div>
     <div class="row align-items-center mt-2">
 
@@ -73,7 +73,7 @@
                     <div th:each="userCost : ${userCostsList}">
                         <small th:text="${userCost.getType()}"></small>
                         <div class="row">
-                            <p class="col-sm-8" th:text="${userCost.getValue()}"></p>
+                            <p class="col-sm-8" th:text="${#numbers.formatDecimal(userCost.getValue(),1,'DEFAULT',2,'DEFAULT')}"></p>
                             <p class="col-sm-4 dateFinance" th:text="${#dates.format(userCost.getDate(), 'hh:mm:ss dd-M-yyyy ')}"></p>
                         </div>
                     </div>
@@ -88,7 +88,7 @@
                     <div th:each="userIncome : ${userIncomesList}">
                         <small th:text="${userIncome.getType()}"></small>
                         <div class="row">
-                            <p class="col-sm-8" th:text="${userIncome.getValue()}"></p>
+                            <p class="col-sm-8" th:text="${#numbers.formatDecimal(userIncome.getValue(),1,'DEFAULT',2,'DEFAULT')}"></p>
                             <p class="col-sm-4 dateFinance" th:text="${#dates.format(userIncome.getDate(), 'hh:mm:ss dd-M-yyyy')}"></p>
                         </div>
 
