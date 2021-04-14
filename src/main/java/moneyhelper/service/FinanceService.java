@@ -19,7 +19,6 @@ public class FinanceService {
     private final FinanceRepository financeRepository;
     private final UserService userService;
 
-
     public FinanceService(TypesOfIncomesRepository typesOfIncome, TypesOfCostsRepository typesOfCosts, FinanceRepository financeRepository, UserService userService) {
         this.typesOfIncome = typesOfIncome;
         this.typesOfCosts = typesOfCosts;
